@@ -72,6 +72,47 @@ app.post("/authors", (req, res) => {
 		})
 })
 
+//AUTHORS - PUT
+app.put("/authors/:id", (req, res) => {
+	if (!(req.params.id && req.body.id && req.params.id === req.body.id)) {
+		const message =
+      `Request path id (${req.params.id}) and request body id ` +
+      `(${req.body.id}) must match`;
+    console.error(message);
+    return res.status(400).json({ message: message });
+	}
+
+	const toUpdate = {};
+	const updateableFields = ["firstName", "lastName", "userName"];
+
+	updateableFields.forEach(field => {
+		if (field in req.body){
+			toUpdate[field] = req.body[field];
+		}
+	})
+
+	Author
+	.findOne({userName: updated.userName})
+		.then(author =>{
+			if (author){
+				const message = "Username already taken";
+				console.log(message);
+				return res.status(400).send(message);
+			} else {
+				Author
+					.findByIdAndUdate(req.params.id, {$set: toUpdate})
+					.then(author=>{
+						res.status(200).json({
+							id: author.id,
+							name: `${author.firstName} ${author.lastName}`,
+							userName: author.userName
+						})
+					})
+					.catch(err =>res.status(500).json({message: "Internal servor error"}));
+				}
+			}
+})
+
 //GET request
 app.get("/posts", (req, res) => {
 	BlogPost
