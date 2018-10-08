@@ -8,11 +8,14 @@ const authorSchema = mongoose.Schema({
 	userName: {type: String, unique: true}
 })
 
+const commentSchema = mongoose.Schema({content: String});
+
 const blogPostSchema = mongoose.Schema({
 	title: {type: String, required: true},
 	content: {type: String, required: true},
 	author: {type: mongoose.Schema.Types.ObjectId, ref: "Author"},
-	created: {type: Date, default: Date.now}
+	created: {type: Date, default: Date.now},
+	comments: [commentSchema]
 })
 
 blogPostSchema.pre("find", function(next){
