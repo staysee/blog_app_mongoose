@@ -38,7 +38,8 @@ blogPostSchema.methods.serialize = function() {
 		title: this.title,
 		author: this.authorName,
 		content: this.content,
-		created: this.created
+		created: this.created,
+		comments: this.comments
 	};
 };
 
