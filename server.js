@@ -177,13 +177,21 @@ app.post("/posts", (req, res) => {
 						content: req.body.content,
 						author: req.body.author
 				})
-				.then(post = res.status(201).json(post.serialize()))
+				.then(post => res.status(201).json(post.serialize()))
 				.catch(err => {
 					console.error(err);
 					res.status(500).json({ message: "Internal servor error" });
 				})
+			} else {
+				const message = `Author not found`;
+				console.error(message);
+				return res.status(400).send(message);
 			}
 		})
+		.catch(err => {
+					console.error(err);
+					res.status(500).json({ message: "Internal servor error" });
+				})
 })
 
 //BLOGPOSTS - PUT request
