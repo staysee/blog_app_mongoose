@@ -167,15 +167,22 @@ app.post("/posts", (req, res) => {
 		}
 	}
 
-	BlogPost.create({
-		title: req.body.title,
-		content: req.body.content,
-		author: req.body.author
-	})
-		.then(post = res.status(201).json(post.serialize()))
-		.catch(err => {
-			console.error(err);
-			res.status(500).json({ message: "Internal servor error" });
+	Author
+		.findById(req.body.author_id)
+		.then(author => {
+			if (author) {
+				BlogPost
+					.create({
+						title: req.body.title,
+						content: req.body.content,
+						author: req.body.author
+				})
+				.then(post = res.status(201).json(post.serialize()))
+				.catch(err => {
+					console.error(err);
+					res.status(500).json({ message: "Internal servor error" });
+				})
+			}
 		})
 })
 
