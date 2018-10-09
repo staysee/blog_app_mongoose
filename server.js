@@ -110,7 +110,7 @@ app.put("/authors/:id", (req, res) => {
 					})
 					.catch(err =>res.status(500).json({message: "Internal servor error"}));
 				}
-			}
+			})		
 })
 
 //GET request
