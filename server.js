@@ -6,7 +6,7 @@ const mongoose = require("mongoose");
 mongoose.Promise = global.Promise
 
 const { PORT, DATABASE_URL } = require("./config");
-const { BlogPost } = require("./models");
+const { Author, BlogPost } = require("./models");
 
 const app = express();
 app.use(express.json());
@@ -14,7 +14,7 @@ app.use(express.json());
 // AUTHORS - GET
 app.get("/authors", (req, res) => {
 	Author
-		find()
+		.find()
 		.then(authors => {
 			res.json(authors.map(author => {
 					return {
@@ -92,7 +92,7 @@ app.put("/authors/:id", (req, res) => {
 	})
 
 	Author
-	.findOne({userName: updated.userName})
+	.findOne({userName: toUpdate.userName})
 		.then(author =>{
 			if (author){
 				const message = "Username already taken";
@@ -100,7 +100,7 @@ app.put("/authors/:id", (req, res) => {
 				return res.status(400).send(message);
 			} else {
 				Author
-					.findByIdAndUdate(req.params.id, {$set: toUpdate})
+					.findByIdAndUpdate(req.params.id, {$set: toUpdate})
 					.then(author=>{
 						res.status(200).json({
 							id: author.id,
