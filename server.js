@@ -113,6 +113,22 @@ app.put("/authors/:id", (req, res) => {
 			})		
 })
 
+//AUTHORS - DELETE
+app.delete("/authors/:id", (req, res) => {
+	BlogPost
+		.remove({author: req.params.id})
+		.then(() => {
+			Author
+				.findByIdAndRemove(req.params.id)
+				.then(() => {
+					console.log(`Author with id \`${req.params.id}\` deleted along with blogposts`);
+					res.status(204).json({message: "Delete success"});
+				})
+		})
+		.catch(err => res.status(500).json({ message: "Internal servor error" }));
+})
+
+
 //BLOGPOSTS - GET request
 app.get("/posts", (req, res) => {
 	BlogPost
