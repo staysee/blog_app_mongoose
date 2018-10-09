@@ -8,7 +8,9 @@ const authorSchema = mongoose.Schema({
 	userName: {type: String, unique: true}
 })
 
-const commentSchema = mongoose.Schema({content: String});
+const commentSchema = mongoose.Schema({
+	content: String
+});
 
 const blogPostSchema = mongoose.Schema({
 	title: {type: String, required: true},

@@ -113,7 +113,7 @@ app.put("/authors/:id", (req, res) => {
 			})		
 })
 
-//GET request
+//BLOGPOSTS - GET request
 app.get("/posts", (req, res) => {
 	BlogPost
 		.find()
@@ -128,7 +128,7 @@ app.get("/posts", (req, res) => {
 		})
 })
 
-//GET request by id
+//BLOGPOSTS - GET request by id
 app.get("/posts/:id", (req, res) => {
 	BlogPost
 		.findById(req.params.id)
@@ -139,7 +139,7 @@ app.get("/posts/:id", (req, res) => {
 		})
 })
 
-//POST request
+//BLOGPOSTS - POST request
 app.post("/posts", (req, res) => {
 	const requiredFields = ["title", "content", "author"];
 	for (let i = 0; i <requiredFields.length; i++){
@@ -163,7 +163,7 @@ app.post("/posts", (req, res) => {
 		})
 })
 
-//PUT request
+//BLOGPOSTS - PUT request
 app.put("/posts/:id", (req, res) => {
 	if (!(req.params.id && req.body.id && req.params.id === req.body.id)) {
 		const message =
@@ -174,7 +174,7 @@ app.put("/posts/:id", (req, res) => {
 	}
 
 	const toUpdate = {};
-	const updateableFields = ["title", "content", "author"];
+	const updateableFields = ["title", "content"];
 
 	updateableFields.forEach(field => {
 		if (field in req.body){
@@ -184,11 +184,15 @@ app.put("/posts/:id", (req, res) => {
 
 	BlogPost
 		.findByIdAndUdate(req.params.id, { $set: toUpdate })
-		.then(post => res.status(204).end())
+		.then(post => res.status(200).json({
+			id: post.id,
+			title: post.title,
+			content: post.content
+		}))
 		.catch(err => res.status(500).json({ message: "Internal server"}));
 })
 
-//DELETE request
+//BLOGPOSTS - DELETE request
 app.delete("/posts/:id", (req, res) => {
 	BlogPost
 		.findByIdAndRemove(req.params.id)
