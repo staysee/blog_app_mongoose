@@ -157,13 +157,13 @@ app.get("/posts/:id", (req, res) => {
 
 //BLOGPOSTS - POST request
 app.post("/posts", (req, res) => {
-	const requiredFields = ["title", "content", "author"];
-	for (let i = 0; i <requiredFields.length; i++){
+	const requiredFields = ["title", "content", "author_id"];
+	for (let i = 0; i<requiredFields.length; i++){
 		const field = requiredFields[i];
 		if (!(field in req.body)){
 			const message = `Missing \`${field}\` in request body`;
-      console.error(message);
-      return res.status(400).send(message);
+      		console.error(message);
+      		return res.status(400).send(message);
 		}
 	}
 
@@ -175,7 +175,7 @@ app.post("/posts", (req, res) => {
 					.create({
 						title: req.body.title,
 						content: req.body.content,
-						author: req.body.author
+						author: req.body.id
 				})
 				.then(post => res.status(201).json(post.serialize()))
 				.catch(err => {
