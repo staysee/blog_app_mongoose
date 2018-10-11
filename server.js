@@ -149,7 +149,7 @@ app.get("/posts/:id", (req, res) => {
 	BlogPost
 		.findById(req.params.id)
 		.then( post => res.json(post.serialize()))
-		.cath(err => {
+		.catch(err => {
 			console.error(err);
 			res.status(500).json({ error: "Internal server error" });
 		})
@@ -214,7 +214,7 @@ app.put("/posts/:id", (req, res) => {
 	})
 
 	BlogPost
-		.findByIdAndUdate(req.params.id, { $set: toUpdate })
+		.findByIdAndUpdate(req.params.id, { $set: toUpdate })
 		.then(post => res.status(200).json({
 			id: post.id,
 			title: post.title,
