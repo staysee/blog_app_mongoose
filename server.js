@@ -170,6 +170,7 @@ app.post("/posts", (req, res) => {
 	Author
 		.findById(req.body.author_id)
 		.then(author => {
+			console.log(author);
 			if (author) {
 				BlogPost
 					.create({

@@ -31,7 +31,8 @@ blogPostSchema.pre("findOne", function(next){
 })
 
 blogPostSchema.virtual('authorName').get(function() {
-	return `${this.author.firstName} ${this.author.lastName}`.trim();
+	console.log(this)
+	return `${this.firstName} ${this.lastName}`.trim();
 });
 
 blogPostSchema.methods.serialize = function() {
